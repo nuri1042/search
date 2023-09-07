@@ -4,45 +4,39 @@ import { useRef } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
 import { Sick } from "../types/SickType";
 
-const AutoCompleted = (searchedResult: Sick[]) => {
-  const autoRef = useRef<HTMLUListElement>(null);
+type SearchedresultProps = {
+  searchedResult: Sick[];
+};
+const AutoCompleted = ({ searchedResult }: SearchedresultProps) => {
+  // const autoRef = useRef<HTMLUListElement>(null);
   return (
-    <Wrapper onClick={() => {}}>
-      <ContentWrapper>
-        {searchedResult && (
-          <>
-            <AiOutlineSearch />
-            {searchedResult}
-          </>
+    <Wrapper>
+      <ListWrapper>
+        {!searchedResult || searchedResult.length === 0 ? (
+          <div>검색 결과가 없습니다</div>
+        ) : (
+          searchedResult?.map((item, idx) => (
+            <Item key={item.sickCd}>
+              <SearchMark>
+                <AiOutlineSearch />
+              </SearchMark>
+              {
+                item.sickNm
+                // .replaceAll(searchTerm, `#$%${searchTerm}#$%`)
+                // .split("#$%")
+                // .map((e: string) => (
+                //   <span
+                //     key={uuid()}
+                //     style={{ fontWeight: e === searchTerm ? "700" : "300" }}
+                //   >
+                //     {e}
+                //   </span>
+                // ))
+              }
+            </Item>
+          ))
         )}
-        <Title>추천 검색어</Title>
-        <ListWrapper ref={autoRef}>
-          {!searchedResult || searchedResult.length === 0 ? (
-            <div>검색 결과가 없습니다</div>
-          ) : (
-            searchedResult?.map((item, idx) => (
-              <Item key={item.sickCd}>
-                <SearchMark>
-                  <AiOutlineSearch />
-                </SearchMark>
-                {
-                  item.sickNm
-                  // .replaceAll(searchTerm, `#$%${searchTerm}#$%`)
-                  // .split("#$%")
-                  // .map((e: string) => (
-                  //   <span
-                  //     key={uuid()}
-                  //     style={{ fontWeight: e === searchTerm ? "700" : "300" }}
-                  //   >
-                  //     {e}
-                  //   </span>
-                  // ))
-                }
-              </Item>
-            ))
-          )}
-        </ListWrapper>
-      </ContentWrapper>
+      </ListWrapper>
     </Wrapper>
   );
 };

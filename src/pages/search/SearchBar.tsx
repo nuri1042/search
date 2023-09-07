@@ -3,7 +3,6 @@ import { useEffect } from "react";
 import { useState } from "react";
 import styled from "styled-components";
 import getData from "../../api";
-import AutoCompleted from "../../components/AutoComplete";
 import useDebounce from "../../hooks/useDebounce";
 import { Sick } from "../../types/SickType";
 import SearchSpan from "../../components/SearchSpan";
@@ -12,7 +11,6 @@ const SearchBar = () => {
   const [searchInput, setSearchInput] = useState("");
   const [searchedResult, setSearchedResult] = useState<Sick[]>([]);
   const { debounceValue } = useDebounce(searchInput);
-  const [suggested, setSuggested] = useState();
 
   const [onFocus, setOnFocus] = useState(false);
 
@@ -21,10 +19,9 @@ const SearchBar = () => {
   };
 
   useEffect(() => {
-    if (searchInput === " " || debounceValue === " ") return;
+    if (searchInput === "" || debounceValue === "") return;
 
     getData(debounceValue).then((res) => setSearchedResult(res));
-    console.log(searchedResult);
   }, [debounceValue]);
 
   return (
@@ -42,17 +39,7 @@ const SearchBar = () => {
         <SearchBorder>
           <span>검색</span>
         </SearchBorder>
-        {onFocus &&
-          searchedResult.map((result) => {
-            return <div>{result.sickNm}</div>;
-          })}
-        {/* {searchedResult.length === 0 ? (
-          <div>no results</div>
-        ) : (
-          searchedResult.map((search) => {
-            return <div>{search.sickNm}</div>;
-          })
-        )} */}
+        {onFocus && <SearchSpan searchedResult={searchedResult} />}
       </SearchSection>
     </>
   );
