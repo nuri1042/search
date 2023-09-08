@@ -1,70 +1,69 @@
-# Getting Started with Create React App
+# 원티드 프리온보딩 3주차 과제
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+- 해당 repository는 원티드 프리온보딩 프론트엔트 인턴쉽 12차 3주차 과제을 다뤘습니다.
 
-## Available Scripts
 
-In the project directory, you can run:
+## 프로젝트 실행 방법
 
-### `npm start`
+1. 프로젝트 클론
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+```
+git clone https://github.com/nuri1042/search.git
+```
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+2. 해당 폴더로 이동
 
-### `npm test`
+```
+cd pre-onboarding-12th-3-4
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+3. 프로젝트 패키지 설치
 
-### `npm run build`
+```
+npm install
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+4. json-server 실행
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```
+npm run server
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+5. 프로젝트 실행
 
-### `npm run eject`
+```
+npm start
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## 기능 상세
+### 1. 로컬 캐싱
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+#### cache storage 사용 
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+- ✅ 이유: 용량 제한이 비교적으로 적은 cacheStorage 를 사용
+- api 와 결합하여 api 호출 전 get 메서드를 통해 검색어에 대한 캐시가 있는지 확인하고 있으면 해당 캐시를 리턴, 없으면 api호출 후 set 메서드를 이용해 캐시에 저장하였습니다.
 
-## Learn More
+#### 만료시간 구현
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- 캐시의 header에 FETCH_DATE를 저장
+- 이후 해당 캐시에 접근 시 `현재시간-FETCH_DATE > EXPIRE_TIME` 로 비교해 해당 캐시가 만료됐는지 여부를 판단, 만료되었으면 삭제하였습니다.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
 
-### Code Splitting
+### 2. API 호출 횟수 줄이기
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+- 디바운스
+- 모든 언어 통틀어 setTimeout delay 시간을 짧게 설정해 useDebounce 커스텀훅에서 처리
+- ✅ 이유: 연속적으로 이벤트가 발생할 때 이를 그룹화하여 특정 시간이 지난 뒤 마지막 이벤트만 실행한다
 
-### Analyzing the Bundle Size
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+### 3. 키보드 접근성
 
-### Making a Progressive Web App
+>-키보드만으로 추천 검색어들로 이동 가능하도록 구현
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+- contextApi에서 keyboardEvent를 관리
+- 검색창의 input box에서 onKeyDown 이벤트를 주고 이벤트 발생 시 index값을 변경해 ArrowDown, ArrowUp 관리
 
-### Advanced Configuration
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
 
-### Deployment
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
