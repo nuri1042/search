@@ -1,7 +1,8 @@
 import React from "react";
 import styled from "styled-components";
-import SearchBar from "./search/SearchBar";
-
+import SearchForm from "../components/SearchForm";
+import SearchList from "../components/SearchList";
+import SearchProvider from "../context/SearchProvider";
 const Main = () => {
   return (
     <>
@@ -14,9 +15,10 @@ const Main = () => {
             온라인으로 참여하기
           </h2>
         </Title>
-        <Search>
-          <SearchBar />
-        </Search>
+        <SearchProvider>
+          <SearchForm />
+          <SearchList />
+        </SearchProvider>
       </div>
     </>
   );
@@ -31,13 +33,8 @@ const Title = styled.div`
     font-weight: bold;
     line-height: 3rem;
     text-align: center;
+    color: black;
   }
 `;
 
-export const Search = styled.div`
-  width: 490px;
-  margin: 0 auto;
-
-  position: relative;
-`;
 export default Main;

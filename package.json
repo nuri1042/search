@@ -27,7 +27,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "server": "json-server --watch src/data/db.json --port 4000"
   },
   "eslintConfig": {
     "extends": [
